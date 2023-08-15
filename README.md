@@ -7,6 +7,16 @@ This project provides an interactive storytelling experience where users can sha
 - Docker installed on your machine.
 - Two unique OpenAI API keys.
 
+## Configuration
+
+Before you can run this project, you need to provide your OpenAI API keys.
+
+1. Enter one key in the configuration file application.yml:
+![Screenshot](images/instructionsReadme.png)
+
+2. Enter the other key in the StoryController in the generateImage method:
+![Screenshot](images/instructionsReadme2.png)
+
 3. Build the Docker image:
 
 ```bash
