@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <style>
+        body {
+            /* Set the background color to dark gray */
+            background-color: #1a202c;
+        }
+
+        /* CSS animations */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Apply animations to elements */
+        .fade-in-title {
+            animation: fadeIn 2s ease 0.75s both;
+        }
+
+        .fade-in-carousel {
+            animation: fadeIn 2s ease 1.5s both;
+        }
+
+        .fade-in-button {
+            animation: fadeIn 2s ease 2s both;
+        }
+
+        /* Carousel styling */
+        .carousel {
+            overflow: hidden;
+        }
+
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            justify-content: flex-start; /* Start from the left edge */
+        }
+
+        .carousel-item {
+            position: relative; /* Add relative positioning */
+            min-width: 512px;
+            min-height: 512px;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+
+        .carousel-container {
+            width: 512px;
+            height: 512px;
+            margin: 0 auto;
+        }
+
+        .carousel-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 8px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            text-align: center;
+            display: block; /* Display the caption at all times */
+        }
+
+        .carousel-item:hover .carousel-caption {
+            display: block; /* Show the caption on hover */
+        }
+
+        .carousel-slide {
+            flex: 0 0 30%; /* Display 3 images at a time */
+            margin: 0 8px;
+            opacity: 0.7; /* Shade adjacent images */
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .carousel-slide.active {
+            opacity: 1; /* Show the current image with full opacity */
+        }
+
+        /* Navigation arrows */
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            font-size: 24px;
+            padding: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        /* .carousel-arrow:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        } */
+
+        .prev-arrow {
+            left: 16px;
+        }
+
+        .next-arrow {
+            right: 16px;
+        }
+
+        /* Logo animation */
+        .pastel-animation {
+            animation: changeColors 5s infinite alternate;
+        }
+
+
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3rem;
+            height: 3rem;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .nav-arrow:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        .nav-arrow.left {
+            left: 1rem;
+        }
+        .nav-arrow.right {
+            right: 1rem;
+        }
+
+
+
+        @keyframes changeColors {
+            0% {
+                color: #ffb5b5;
+            }
+            25% {
+                color: #b5e5ff;
+            }
+            50% {
+                color: #dab5ff;
+            }
+            75% {
+                color: #b5ffec;
+            }
+            100% {
+                color: #ffcab5;
+            }
+        }
+
+        /* Apply animations to elements */
+        /* .fade-in-content {
+            animation: fadeIn 1.5s ease 0.55s both;
+        } */
+        .navbar {
+            background-color: #1a202c; /* Same color as the dark theme */
+            padding: 1rem; /* Add some padding for spacing */
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: #fff; /* White font color */
+        }
+        .logo-link {
+            text-decoration: none;
+            color: #fff; /* White font color */
+        }
+    </style>
+</head>
+<body class="h-screen">
+<!-- Top Navbar -->
+<div class="navbar absolute top-0 left-0 w-full">
+    <a href="index.html" class="logo-link">
+        <span class="logo pastel-animation">Storybook Factory</span>
+    </a>
+</div>
+
+<div id="ui-container" class="h-auto min-h-screen grid justify-center items-center">
+    <div class=" w-64rem mx-auto p-8">
+        <!-- Carousel Container -->
+        <div class="relative">
+            <div class="flex items-center justify-between mb-4">
+                <h1 class="text-4xl font-bold text-white fade-in-title">Your AI-Generated Story:</h1><br><br><br>
+            </div>
+
+            <div class="carousel fade-in-carousel">
+
+                <div class="carousel-container mt-8 relative">
+                    <div class="carousel w-64rem h-64rem rounded-lg overflow-hidden shadow-md relative">
+                        <div class="carousel-inner" id="carouselInner">
+
+                            <div th:each="item, index : ${generatedImageUrls}" class="carousel-item">
+                                <img th:src="${item}" alt="Generated Image">
+                                <div class="carousel-caption">
+                                    <p th:text="${stories[__${index.index}__]}" class="text-white"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Export Button -->
+            <div class="flex justify-center mt-8 fade-in-button">
+                <button class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-full text-center font-semibold" onclick="window.location.href = 'http://localhost:8080/export-pdf';">Export</button>
+            </div>
+
+            <!-- Navigation arrows -->
+        <div class="nav-arrow left" id="prevBtn">&lt;</div>
+        <div class="nav-arrow right" id="nextBtn">&gt;</div>
+    </div>
+
+</div>
+
+    <script>
+        const carouselInner = document.getElementById('carouselInner');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentSlide = 0;
+        const totalSlides = carouselInner.childElementCount;
+
+        function updateCarousel() {
+            carouselInner.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+
+        function goToNextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarousel();
+        }
+
+        function goToPrevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        }
+
+        prevBtn.addEventListener('click', goToPrevSlide);
+        nextBtn.addEventListener('click', goToNextSlide);
+
+    </script>
+</body>
+</html>

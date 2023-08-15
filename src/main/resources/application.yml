@@ -1,0 +1,6 @@
+openai:
+  api:
+    baseurl: https://api.openai.com/v1
+    key:
+  model:
+    version: gpt-3.5-turbo

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <title>Home</title>
+    <style>
+        body {
+            /* Set the background image URL */
+            background-image: url(castle.png);
+
+            /* Set the background repeat behavior (optional) */
+            background-repeat: no-repeat;
+
+            /* Set the background size (optional) */
+            background-size: cover;
+
+            /* Set the background position (optional) */
+            background-position: center center;
+        }
+
+        /* CSS animations */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Apply animations to elements */
+        .fade-in-title {
+            animation: fadeIn 2s ease 0.75s both;
+        }
+
+        .fade-in-description {
+            animation: fadeIn 2s ease 1.50s both;
+        }
+
+        .fade-in-buttons {
+            animation: fadeIn 2s ease 2.0s both;
+        }
+
+        /* Center the text in the button */
+        .center-text {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body class="h-screen">
+<div id="ui-container" class="h-auto min-h-screen grid justify-center items-center">
+    <div class="grid grid-cols-1 md:grid-cols-2 h-full w-full">
+        <div class="flex flex-col items-start p-8 md:p-16 text-left mt-14">
+            <h1 class="text-3xl md:text-5xl font-bold mb-4 text-white fade-in-title">Introducing Storybook Factory</h1><br>
+            <p class="mb-2 md:mb-4 max-w-md text-white fade-in-description">Storybook Factory is an innovative AI application that transforms your imagination into captivating stories with accompanying images. With just a few simple inputs, users can embark on a creative journey by providing the AI with key elements such as characters, settings, and a basic plot outline. </p> <br>
+            <div class="grid grid-cols-2 gap-4 fade-in-buttons">
+                <a href="instructions.html" class="bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-full font-semibold center-text">Learn More</a>
+                <a href="/story" class="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-full font-semibold center-text">Try It Out</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Story</title>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <style>
+        body {
+            /* Set the background color to dark gray */
+            background-color: #1a202c;
+        }
+
+        .overflow-container {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        p {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        /* CSS animations */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Logo animation */
+        .pastel-animation {
+            animation: changeColors 5s infinite alternate;
+        }
+
+        @keyframes changeColors {
+            0% {
+                color: #ffb5b5;
+            }
+            25% {
+                color: #b5e5ff;
+            }
+            50% {
+                color: #dab5ff;
+            }
+            75% {
+                color: #b5ffec;
+            }
+            100% {
+                color: #ffcab5;
+            }
+        }
+
+        /* Apply animations to elements */
+        .fade-in-content {
+            animation: fadeIn 1.5s ease 0.55s both;
+        }
+        .navbar {
+            background-color: #1a202c; /* Same color as the dark theme */
+            padding: 1rem; /* Add some padding for spacing */
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: #fff; /* White font color */
+        }
+        .logo-link {
+            text-decoration: none;
+            color: #fff; /* White font color */
+        }
+        /* CSS for scrollbar customization */
+        /* For WebKit-based browsers */
+        ::-webkit-scrollbar {
+            width: 10px; /* Width of the scrollbar */
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #4a5568; /* Color of the thumb */
+            border-radius: 5px; /* Rounded corners of the thumb */
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #718096; /* Color of the thumb on hover */
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: #2d3748; /* Color of the track */
+        }
+
+        /* For Internet Explorer */
+        /* Hide the default scrollbar */
+        body {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        /* Add your own custom scrollbar */
+        body::-webkit-scrollbar {
+            width: 10px; /* Width of the scrollbar */
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background-color: #4a5568; /* Color of the thumb */
+            border-radius: 5px; /* Rounded corners of the thumb */
+        }
+
+        body::-webkit-scrollbar-thumb:hover {
+            background-color: #718096; /* Color of the thumb on hover */
+        }
+
+        body::-webkit-scrollbar-track {
+            background-color: #2d3748; /* Color of the track */
+        }
+    </style>
+</head>
+<body class="h-screen flex items-center justify-center">
+
+<!-- Top Navbar -->
+<div class="navbar absolute top-0 left-0 w-full">
+    <a href="index.html" class="logo-link">
+        <span class="logo pastel-animation">Storybook Factory</span>
+    </a>
+</div>
+
+<!-- Your Chat UI -->
+<div id="ui-container" class="max-w-xl mx-4 my-8 bg-gray-800 rounded-xl shadow-lg fade-in-content">
+    <div class="p-4">
+        <div class="flex items-center justify-between">
+            <div class="text-lg font-semibold text-white">Chat With Us To Create Your Story</div>
+        </div>
+        <div class="overflow-container">
+            <!-- Display the initial story -->
+            <div class="snippet-container text-white mb-4">
+                <p th:text="${story}"></p>
+            </div>
+
+            <!-- Display the AI-generated response -->
+            <div id="aiResponsesContainer" class="text-white"></div>
+        </div>
+    </div>
+    <!-- Form to collect the user's choice -->
+    <form id="storyForm" class="p-4 bg-gray-900 rounded-b-xl">
+        <!-- Add the story context as a hidden field -->
+        <input type="hidden" id="storyContext" name="storyContext" th:value="${story}" />
+
+        <div class="flex items-center">
+            <!-- Add the text field for the user's choice -->
+            <input type="text" id="userChoice" name="userChoice" class="flex-grow px-4 py-2 mr-2 rounded-full bg-gray-800 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Type your choice...">
+
+            <!-- Submit button to send the user's choice to the controller -->
+            <input id="innerButton" type="button" value="Continue" onclick="continueStory()" class="px-4 py-2 m-1 text-white bg-blue-600 rounded-full hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+            <input id="endStoryButton" type="button" value="End Story" onclick="endStory()" class="px-4 py-2 m-1 text-white bg-red-600 rounded-full hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"/>
+        </div>
+        <button style="margin-top: 20px; padding-bottom: 5px"><a href="/export" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-full center-text">Generate Storybook</a>
+        </button>
+    </form>
+</div>
+
+<!--Link to jsPDF content-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js%22%3E"></script>
+<!--End of Link to jsPDF content-->
+
+<!-- JavaScript function to export the text content of div class "snippet-container" to PDF-->
+<script>
+    function scrollToBottom(aiResponsesContainer) {
+        const container = document.getElementById(aiResponsesContainer);
+        container.scrollIntoView(false);
+    }
+    function continueStory() {
+
+        //progressWheel to show loading
+        let progressWheel = document.createElement("div");
+        progressWheel.innerHTML = '<button type="button" className="bg-indigo-500 ..." disabled><svg className="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24"></svg>Processing...</button>';
+        progressWheel.setAttribute("class", "progress-wheel");
+
+        const disabledButton = document.getElementById("innerButton");
+        disabledButton.disabled = true;
+
+        var aiResponsesContainer = document.getElementById("aiResponsesContainer");
+        aiResponsesContainer.appendChild(progressWheel);
+
+        // Scroll to the bottom of the AI responses container after userInput
+        scrollToBottom("aiResponsesContainer");
+
+        // Get the user choice from the input field
+        var userChoice = document.getElementById("userChoice").value;
+        var storyContext = document.getElementById("storyContext").value;
+
+        // Send the user choice and storyContext to the server using AJAX
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                // remove progress wheel
+                progressWheel.remove();
+
+                // Create a new element for the AI responsea
+                var aiResponseParagraph = document.createElement("p");
+                aiResponseParagraph.innerText = JSON.parse(this.responseText).aiResponse;
+
+                // Append the new AI response element to the container
+                var aiResponsesContainer = document.getElementById("aiResponsesContainer");
+                aiResponsesContainer.appendChild(aiResponseParagraph);
+
+                scrollToBottom("aiResponsesContainer");
+
+                // Clear the text field for the user choice
+                document.getElementById("userChoice").value = "";
+
+                disabledButton.disabled = false;
+            } else {
+                // Handle error case
+                console.error("Error occurred during AJAX request.");
+            }
+        };
+        xhttp.open("POST", "/continue-story", true);
+
+        // Create a FormData object to send the data as form data
+        var formData = new FormData();
+        formData.append("userChoice", userChoice);
+        formData.append("storyContext", storyContext);
+
+        // Send the FormData object in the AJAX request
+        xhttp.send(formData);
+    }
+
+    function endStory() {
+
+        //progressWheel to show loading
+        let progressWheel = document.createElement("div");
+        progressWheel.innerHTML = '<button type="button" className="bg-indigo-500 ..." disabled><svg className="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24"></svg>Processing...</button>';
+        progressWheel.setAttribute("class", "progress-wheel");
+
+        const disabledEnd = document.getElementById("endStoryButton");
+        disabledEnd.disabled = true;
+
+        var aiResponsesContainer = document.getElementById("aiResponsesContainer");
+        aiResponsesContainer.appendChild(progressWheel);
+
+        // Scroll to the bottom of the AI responses container after userInput
+        scrollToBottom("aiResponsesContainer");
+
+        var storyContext = document.getElementById("storyContext").value;
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                progressWheel.remove();
+
+                var aiResponseParagraph = document.createElement("p");
+                aiResponseParagraph.innerText = JSON.parse(this.responseText).aiEndResponse;
+                var aiResponsesContainer = document.getElementById("aiResponsesContainer");
+                aiResponsesContainer.appendChild(aiResponseParagraph);
+
+                scrollToBottom("aiResponsesContainer");
+
+                disabledEnd.disabled = true;
+            } else {
+                console.error("Error occurred during AJAX request.");
+            }
+        };
+        xhttp.open("POST", "/end-story", true);
+
+        var formData = new FormData();
+        formData.append("storyContext", storyContext);
+
+        xhttp.send(formData);
+    }
+
+    function generatePDF() {
+        const story = document.querySelector(".snippet-container").innerText; // Fetch the text content from the div with class "snippet-container"
+        const doc = new jsPDF(); // initialize jsPDF object
+        doc.text(story, 10, 10); // Add the fetched text to the PDF at position (10, 10)
+        doc.save("myStory.pdf"); // Save the PDF with the name "myStory.pdf" or whatever for preference
+    }
+
+    function theButton() {
+        const aButton = document.querySelector("#innerButton").innerText;
+
+    }
+
+    function handleEnterKeyPress(event) {
+        // Check if the Enter key is pressed (keyCode 13)
+        if (event.keyCode === 13) {
+            // Trigger the click event on the "Generate PDF" button
+            document.getElementById("innerButton").click();
+            // Prevent form submission (and page refresh)
+            event.preventDefault();
+        }
+    }
+
+    // Add an event listener to the input field for the Enter key press
+    document.getElementById("userChoice").addEventListener("keypress", handleEnterKeyPress);
+
+    // Attach a click event listener to the "Generate PDF" button.
+    // Purpose of this is to make the code wait for the user to interact with the button before executing this PDF logic
+    const generateButton = document.getElementById("innerButton");
+    generateButton.addEventListener("click", theButton);
+</script>
+</body>
+</html>

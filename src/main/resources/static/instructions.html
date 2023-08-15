@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <title>Instructions</title>
+    <style>
+        body {
+            /* Set the background color to dark gray and text color to white */
+            background-color: #1a202c;
+            color: white;
+        }
+
+        /* CSS animations */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Apply animations to elements */
+        .fade-in-title {
+            animation: fadeIn 2s ease 0.55s both;
+            margin-left: 15px;
+        }
+
+        .fade-in-card {
+            animation: fadeIn 2s ease 1.5s both;
+        }
+
+        .fade-in-button {
+            animation: fadeIn 2s ease 2.0s both;
+        }
+
+        /* Navbar and logo styling */
+        .navbar {
+            background-color: #1a202c; /* Same color as the dark theme */
+            padding: 1rem; /* Add some padding for spacing */
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: #fff; /* White font color */
+            /* Logo animation */
+            animation: changeColors 5s infinite alternate;
+        }
+
+        @keyframes changeColors {
+            0% {
+                color: #ffb5b5;
+            }
+            25% {
+                color: #b5e5ff;
+            }
+            50% {
+                color: #dab5ff;
+            }
+            75% {
+                color: #b5ffec;
+            }
+            100% {
+                color: #ffcab5;
+            }
+        }
+
+        .logo-link {
+            text-decoration: none;
+            color: #fff; /* White font color */
+        }
+
+        /* Flexbox styling for logo and title */
+        .navbar-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-link {
+            margin-right: 1rem;
+        }
+    </style>
+</head>
+<body class="h-screen">
+<!-- Top Navbar -->
+<div class="navbar absolute top-0 left-0 w-full">
+    <div class="navbar-container">
+        <a href="index.html" class="logo-link">
+            <span class="logo">Storybook Factory</span>
+        </a>
+    </div>
+</div>
+
+<div id="ui-container" class="h-auto min-h-screen grid justify-center items-center">
+    <div class="max-w-screen-xl mx-auto">
+        <h1 class="text-4xl font-bold mb-8 fade-in-title"><br><br>How To Get Started:</h1>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 fade-in-card">
+            <div class="bg-gray-800 rounded-md shadow-md p-4"> <!-- Change background color to dark gray -->
+                <h2 class="text-2xl font-bold mb-4 text-center">Step 1</h2>
+                <img src="step1complete.png"alt="Card 1" class="w-full aspect-w-1 aspect-h-1 object-cover mb-4">
+                <p class="align-middle">Embark on your storytelling journey by immersing yourself in the provided prompt. Allow it to serve as your compass, guiding you in the selection of your imaginative pathway.</p>
+            </div>
+            <div class="bg-gray-800 rounded-md shadow-md p-4"> <!-- Change background color to dark gray -->
+                <h2 class="text-2xl font-bold mb-4 text-center">Step 2</h2>
+                <img src="step2complete.png" alt="Card 2" class="w-full aspect-w-1 aspect-h-1 object-cover mb-4">
+                <p class="align-middle">Discern the most enthralling route that propels your story onward. Engage with the "Continue" button or opt for "Enter" to enrich the narrative gradually. As you weave your tale, each click contributes to the mosaic of your captivating adventure. When you feel the tale is complete, embrace the finale by selecting the resolute red "End" button. The opportunity now presents itself to "Generate Storybook."</p>
+            </div>
+            <div class="bg-gray-800 rounded-md shadow-md p-4"> <!-- Change background color to dark gray -->
+                <h2 class="text-2xl font-bold mb-4 text-center">Step 3</h2>
+                <img src="step3complete.png" alt="Card 3" class="w-full aspect-w-1 aspect-h-1 object-cover mb-4">
+                <p class="align-middle">This selection breathes life into your narrative, sculpting it into a visual masterpiece, complete with complementary illustrations. Traverse the entirety of your creation on the website, and upon reaching the culmination, trigger transformation with the click of the "Export" button. Witness your narrative metamorphose into a PDF.</p>
+            </div>
+            <div class="bg-gray-800 rounded-md shadow-md p-4"> <!-- Change background color to dark gray -->
+                <h2 class="text-2xl font-bold mb-4 text-center">Step 4</h2>
+<!--                https://source.unsplash.com/600x600/?abstract-->
+                <img src="step4complete.png" alt="Card 4" class="w-full aspect-w-1 aspect-h-1 object-cover mb-4">
+                <p class="align-middle">Upon your selection of the "Export" button, the portal to the PDF realm opens. Within its digital embrace, the opportunity emerges to transcribe your story into reality, page by page, with the simple act of pressing "Print."</p>
+            </div>
+        </div>
+    </div>
+    <div class="grid grid-cols-1 gap-4 fade-in-button">
+        <!-- Adjusted button background, text color, and added href attribute -->
+        <a href="/story" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 m-2.5 rounded-full text-center font-semibold mx-auto">Start Your Adventure Here!</a>
+    </div>
+    <br>
+    <br>
+</div>
+</body>
+</html>
