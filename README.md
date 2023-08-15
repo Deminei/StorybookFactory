@@ -35,6 +35,9 @@ Your application should now be running and accessible at `http://localhost:8080`
 ## Contributors
 
 Kevin Hoang
+
 Sher Yang
+
 Alexa Dickenson
+
 Cierra Hampton
